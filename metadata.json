@@ -1,0 +1,6 @@
+{
+  "name": "movie-app",
+  "identifier": "com.irokotv.learn.movie",
+  "version": "1.0.0",
+  "icon": "./static/icon.png"
+}
