@@ -24,6 +24,10 @@ export default class MovieCard extends Lightning.Component {
         shader: {
           type: Lightning.shaders.RoundedRectangle,
           radius: [radius, radius, 0, 0],
+          transitions: {
+            strokeColor: { duration: 2, timingFunction: "ease" },
+            strokeColor: { duration: 1, timingFunction: "ease" },
+          },
         },
       },
       Container: {
@@ -62,7 +66,21 @@ export default class MovieCard extends Lightning.Component {
   }
 
   _focus() {
-    this.patch({});
+    this.tag("Poster").patch({
+      shader: {
+        stroke: 5,
+        strokeColor: 0xffff0000,
+      },
+    });
+  }
+
+  _unfocus() {
+    this.tag("Poster").patch({
+      shader: {
+        stroke: 0,
+        strokeColor: 0x00ff0000,
+      },
+    });
   }
 
   _getFocused() {}

@@ -2,7 +2,6 @@ import { Lightning } from "@lightningjs/sdk";
 import { VIEWPORT_HEIGHT, VIEWPORT_WIDTH } from "../lib/constants";
 import { getApiClient } from "../lib/api";
 import MovieCard from "../components/MovieCard";
-import { List } from "@lightningjs/ui";
 
 export default class Home extends Lightning.Component {
   static _template() {
@@ -35,6 +34,10 @@ export default class Home extends Lightning.Component {
       this.movies = JSON.parse(response.data).results;
       this.displayMovies();
     }
+
+    this.currentFocused = 0;
+    this.cols = 5;
+    this._refocus();
   }
 
   displayMovies() {
@@ -51,7 +54,45 @@ export default class Home extends Lightning.Component {
     this.tag("Movies").children = movies;
   }
 
-  _getFocused() {}
+  _getFocused() {
+    return this.tag("Movies").children[this.currentFocused];
+  }
+
+  getMoviesLength() {
+    return this.movies.length;
+  }
+
+  _handleLeft() {
+    if (this.currentFocused > 0) {
+      this.currentFocused--;
+      this._refocus();
+    }
+  }
+
+  _handleRight() {
+    const length = this.getMoviesLength();
+    if (this.currentFocused < length) {
+      this.currentFocused++;
+      this._refocus();
+    }
+  }
+
+  _handleDown() {
+    const length = this.getMoviesLength();
+    const target = this.currentFocused + this.cols;
+    if (target <= length - 1) {
+      this.currentFocused = target;
+      this._refocus();
+    }
+  }
+
+  _handleUp() {
+    const target = this.currentFocused - this.cols;
+    if (target >= 0) {
+      this.currentFocused = target;
+      this._refocus();
+    }
+  }
 
   static _states() {
     return [];
