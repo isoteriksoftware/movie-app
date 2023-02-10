@@ -24,10 +24,6 @@ export default class MovieCard extends Lightning.Component {
         shader: {
           type: Lightning.shaders.RoundedRectangle,
           radius: [radius, radius, 0, 0],
-          transitions: {
-            strokeColor: { duration: 2, timingFunction: "ease" },
-            strokeColor: { duration: 1, timingFunction: "ease" },
-          },
         },
       },
       Container: {
@@ -63,24 +59,42 @@ export default class MovieCard extends Lightning.Component {
         },
       },
     });
+
+    this.focusedAnimation = this.tag("Poster").animation({
+      duration: 0.4,
+      repeat: 0,
+      stopMethod: "immediate",
+      actions: [{ p: "scale", v: { 0: 1, 1: 1.05 } }],
+    });
+    this.unfocusedAnimation = this.tag("Poster").animation({
+      duration: 0.4,
+      repeat: 0,
+      stopMethod: "immediate",
+      actions: [{ p: "scale", v: { 0: 1.05, 1: 1 } }],
+    });
   }
 
   _focus() {
     this.tag("Poster").patch({
       shader: {
-        stroke: 5,
-        strokeColor: 0xffff0000,
+        type: Lightning.shaders.FadeOut,
+        fade: 30,
       },
     });
+
+    this.focusedAnimation.start();
   }
 
   _unfocus() {
+    const radius = 10;
     this.tag("Poster").patch({
       shader: {
-        stroke: 0,
-        strokeColor: 0x00ff0000,
+        type: Lightning.shaders.RoundedRectangle,
+        radius: [radius, radius, 0, 0],
       },
     });
+
+    this.unfocusedAnimation.start();
   }
 
   _getFocused() {}
