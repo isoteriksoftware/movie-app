@@ -1,4 +1,5 @@
 import Home from "../pages/home";
+import Movie from "../pages/movie";
 
 export default {
   root: "$",
@@ -6,6 +7,10 @@ export default {
     {
       path: "$",
       component: Home,
+    },
+    {
+      path: "movie/:id",
+      component: Movie,
     },
   ],
 };

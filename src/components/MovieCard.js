@@ -1,4 +1,4 @@
-import { Lightning } from "@lightningjs/sdk";
+import { Lightning, Router } from "@lightningjs/sdk";
 
 export default class MovieCard extends Lightning.Component {
   static _template() {
@@ -97,7 +97,9 @@ export default class MovieCard extends Lightning.Component {
     this.unfocusedAnimation.start();
   }
 
-  _getFocused() {}
+  _handleEnter() {
+    Router.navigate(`movie/${this.data.id}`);
+  }
 
   static _states() {
     return [];
